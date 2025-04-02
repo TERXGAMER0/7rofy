@@ -7,6 +7,9 @@ const app = express();
 // استخدام middleware لتحليل JSON
 app.use(express.json());
 
+// خدمة الملفات الثابتة من مجلد client
+app.use(express.static('client'));
+
 // API للتحقق من رمز التفعيل
 app.post('/api/verify', (req, res) => {
   const { code } = req.body;
