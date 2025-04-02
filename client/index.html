@@ -105,20 +105,22 @@
         .addEventListener("click", function () {
           var code = document.getElementById("secret-code").value.trim();
           // تم استبدال التحقق المحلي بطلب إلى الخادم للتحقق من الرمز
-          fetch('/api/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code: code })
+          fetch("/api/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code: code }),
           })
-          .then(response => response.json())
-          .then(data => {
-            if (data.valid) {
-              document.getElementById("secret-overlay").style.display = "none";
-            } else {
-              document.getElementById("error-message").style.display = "block";
-            }
-          })
-          .catch(err => console.error("Error during verification:", err));
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.valid) {
+                document.getElementById("secret-overlay").style.display =
+                  "none";
+              } else {
+                document.getElementById("error-message").style.display =
+                  "block";
+              }
+            })
+            .catch((err) => console.error("Error during verification:", err));
 
           /* الكود القديم للتأكد المحلي (تم التعليق عليه)
           var allowedCodes = [
@@ -570,10 +572,10 @@
 
         initAdditionalText2() {
           // إعدادات النص الثاني
-          this.textContent2 = "النص الثاني"; // المحتوى الافتراضي للنص الثاني
-          this.textPosition2 = { x: 300, y: 600 }; // إحداثيات النص داخل الحاوية
-          this.textSize2 = { width: 250, height: 50 }; // أبعاد مربع النص
-          this.textFontSize2 = 0; // حجم الخط الخاص بالنص الثاني
+          this.textContent2 = "jifn للأستفسار اسم حسابي في التيك توك هو "; // المحتوى الافتراضي للنص الثاني
+          this.textPosition2 = { x: 250, y: 1100 }; // إحداثيات النص داخل الحاوية
+          this.textSize2 = { width: 700, height: 50 }; // أبعاد مربع النص
+          this.textFontSize2 = 40; // حجم الخط الخاص بالنص الثاني
 
           const container = document.getElementById("grid");
           const textDiv2 = document.createElement("div");
