@@ -5,7 +5,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(75, 0, 130, 0.9); /* بنفسجي غامق */
+  background-color: rgba(75, 0, 130, 0.9);
   z-index: 10000;
   display: flex;
   justify-content: center;
@@ -26,9 +26,9 @@
   font-size: 16px;
   width: 250px;
   margin-bottom: 10px;
-  border: 2px solid #000; /* حواف سوداء */
-  border-radius: 8px;     /* زوايا دائرية */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* تأثير ظل بسيط */
+  border: 2px solid #000;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 .secret-container input:focus {
@@ -42,25 +42,51 @@
   cursor: pointer;
 }
 
-  /* تنسيقات عناصر اللعبة */
-  .container {
-    position: relative;
-    margin: 50px auto;
-    width: 700px;
-  }
-  
-  .hexagon {
-    position: absolute;
-    width: 50px;
-    height: 55px;
-    background-color: #ffffff;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s, left 0.3s, top 0.3s;
-    font-family: "Simplified Arabic";
-    font-size: 24px;
-  }
-  
+/* ==================== Game Grid Styles ==================== */
+.container {
+  position: relative;
+  margin: 50px auto;
+  width: 700px;
+}
+
+.hexagon {
+  position: absolute;
+  width: 50px;
+  height: 55px;
+  background-color: #ffffff;
+  clip-path: polygon(
+    50% 0%,
+    100% 25%,
+    100% 75%,
+    50% 100%,
+    0% 75%,
+    0% 25%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s, left 0.3s, top 0.3s;
+  font-family: "Simplified Arabic";
+  font-size: 24px;
+}
+
+/* ==================== Additional Background Images ==================== */
+.bgImage2,
+.bgImage3,
+.bgImage4 {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+}
+
+/* ==================== Additional Text Styles ==================== */
+.additionalText1,
+.additionalText2,
+.additionalText3 {
+  position: absolute;
+  color: #000000;
+  background: transparent;
+  z-index: 1;
+}
