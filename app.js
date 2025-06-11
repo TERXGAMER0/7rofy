@@ -1,29 +1,31 @@
-// استدعاء زر التحقق من رمز التفعيل وإرساله إلى الخادم للتحقق
-document.getElementById("secret-submit").addEventListener("click", function () {
-    var code = document.getElementById("secret-code").value.trim();
-    
-    fetch('/api/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: code })
+// app.js
+
+// عند تحميل الـ DOM بالكامل، نربط حدث النقر بزر التحقق
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("secret-submit").addEventListener("click", () => {
+    const code = document.getElementById("secret-code").value.trim();
+
+    // نرسل طلب POST إلى دالة Netlify Functions عبر المسار /api/verify
+    fetch("/api/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code }),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.valid) {
           document.getElementById("secret-overlay").style.display = "none";
         } else {
           document.getElementById("error-message").style.display = "block";
         }
       })
-      .catch(err => console.error('Error:', err));
+      .catch((err) => console.error("Error during verification:", err));
   });
-  
-  // كود لعبة الحروف (HexGame) من ملف index.html
+
+  // كلاس لعبة السداسيات (HexGame)
   class HexGame {
     constructor() {
       this.hexagons = [];
-  
-      // الإحداثيات الأساسية لكل صف
       this.baseCoordinates = [
         [{ x: -48, y: 0 }, { x: 55, y: 0 }, { x: 158, y: 0 }, { x: 261, y: 0 }, { x: 364, y: 0 }],
         [{ x: -21, y: 48 }, { x: 82, y: 48 }, { x: 185, y: 48 }, { x: 288, y: 48 }, { x: 391, y: 48 }],
@@ -31,8 +33,6 @@ document.getElementById("secret-submit").addEventListener("click", function () {
         [{ x: -21, y: 144 }, { x: 82, y: 144 }, { x: 185, y: 144 }, { x: 288, y: 144 }, { x: 391, y: 144 }],
         [{ x: -48, y: 194 }, { x: 55, y: 194 }, { x: 158, y: 194 }, { x: 261, y: 194 }, { x: 364, y: 194 }]
       ];
-  
-      // إزاحات الصفوف
       this.rowOffsets = [
         { x: -98, y: 4 },
         { x: 26, y: 44 },
@@ -40,11 +40,7 @@ document.getElementById("secret-submit").addEventListener("click", function () {
         { x: 26, y: 124 },
         { x: 2, y: 162 }
       ];
-  
-      // إزاحة عامة لنقل الشكل كاملًا
       this.globalOffset = { x: 305, y: 300 };
-  
-      // إعدادات تغيير حجم الخلايا
       this.cellScales = [
         [2, 2, 2, 2, 2],
         [2, 2, 2, 2, 2],
@@ -52,20 +48,14 @@ document.getElementById("secret-submit").addEventListener("click", function () {
         [2, 2, 2, 2, 2],
         [2, 2, 2, 2, 2]
       ];
-  
-      // توليد حروف عربية عشوائية
       this.letters = this.generateBasicArabicLetters(25);
-  
-      // إعدادات الخلفية
+
       this.backgroundImagePath = "IMG_7698.png";
       this.backgroundPosition = { x: 130, y: 280 };
       this.backgroundSize = { width: 815, height: 590 };
       this.backgroundViewSize = { width: 1000, height: 900 };
-  
-      // إنشاء الشكل
+
       this.initGrid();
-  
-      // إضافة الصور والنصوص الإضافية
       this.initAdditionalImage2();
       this.initAdditionalImage3();
       this.initAdditionalImage4();
@@ -73,19 +63,19 @@ document.getElementById("secret-submit").addEventListener("click", function () {
       this.initAdditionalText2();
       this.initAdditionalText3();
     }
-  
+
     moveEntireGrid(x, y) {
       this.globalOffset.x += x;
       this.globalOffset.y += y;
       this.updateAllPositions();
     }
-  
+
     updateAllPositions() {
       this.hexagons.forEach((row, rowIndex) => {
         this.updateRowPositions(rowIndex);
       });
     }
-  
+
     updateRowPositions(rowIndex) {
       this.hexagons[rowIndex].forEach((hex, cellIndex) => {
         const base = this.baseCoordinates[rowIndex][cellIndex];
@@ -94,12 +84,12 @@ document.getElementById("secret-submit").addEventListener("click", function () {
         hex.style.top = `${base.y + rowOffset.y + this.globalOffset.y}px`;
       });
     }
-  
+
     generateBasicArabicLetters(count) {
-      const basicLetters = ["أ", "ب", "ت", "ث", "ج", "ح", "خ", "د", "ذ", "ر", "ز", "س", "ش", "ص", "ض", "ط", "ظ", "ع", "غ", "ف", "ق", "ك", "ل", "م", "ن", "ه", "و", "ي"];
+      const basicLetters = ["أ","ب","ت","ث","ج","ح","خ","د","ذ","ر","ز","س","ش","ص","ض","ط","ظ","ع","غ","ف","ق","ك","ل","م","ن","ه","و","ي"];
       return [...basicLetters].sort(() => Math.random() - 0.5).slice(0, count);
     }
-  
+
     initGrid() {
       const container = document.getElementById("grid");
       container.style.backgroundImage = `url('${this.backgroundImagePath}')`;
@@ -108,7 +98,7 @@ document.getElementById("secret-submit").addEventListener("click", function () {
       container.style.backgroundPosition = `${this.backgroundPosition.x}px ${this.backgroundPosition.y}px`;
       container.style.width = `${this.backgroundViewSize.width}px`;
       container.style.height = `${this.backgroundViewSize.height}px`;
-  
+
       this.hexagons = this.baseCoordinates.map((row, rowIndex) => {
         return row.map((cell, cellIndex) => {
           const hex = document.createElement("div");
@@ -129,7 +119,7 @@ document.getElementById("secret-submit").addEventListener("click", function () {
         });
       });
     }
-  
+
     handleClick(hex) {
       const currentState = parseInt(hex.dataset.state);
       const newState = (currentState + 1) % 4;
@@ -153,7 +143,7 @@ document.getElementById("secret-submit").addEventListener("click", function () {
           break;
       }
     }
-  
+
     hideRelatedChars(char) {
       document.querySelectorAll(".hexagon").forEach((h) => {
         if (h.dataset.char === char && h.dataset.state !== "2") {
@@ -163,7 +153,7 @@ document.getElementById("secret-submit").addEventListener("click", function () {
         }
       });
     }
-  
+
     resetRelatedHexes(char) {
       document.querySelectorAll(".hexagon").forEach((h) => {
         if (h.dataset.char === char) {
@@ -173,7 +163,7 @@ document.getElementById("secret-submit").addEventListener("click", function () {
         }
       });
     }
-  
+
     initAdditionalImage2() {
       this.backgroundImagePath2 = "IMG_7904.png";
       this.backgroundPosition2 = { x: -900, y: -250 };
@@ -192,7 +182,7 @@ document.getElementById("secret-submit").addEventListener("click", function () {
       imgDiv2.style.zIndex = "-1";
       container.appendChild(imgDiv2);
     }
-  
+
     initAdditionalImage3() {
       this.backgroundImagePath3 = "IMG_7750.PNG";
       this.backgroundPosition3 = { x: 380, y: 200 };
@@ -211,7 +201,7 @@ document.getElementById("secret-submit").addEventListener("click", function () {
       imgDiv3.style.zIndex = "-1";
       container.appendChild(imgDiv3);
     }
-  
+
     initAdditionalImage4() {
       this.backgroundImagePath4 = "IMAGE4.png";
       this.backgroundPosition4 = { x: 750, y: 150 };
@@ -230,7 +220,7 @@ document.getElementById("secret-submit").addEventListener("click", function () {
       imgDiv4.style.zIndex = "-1";
       container.appendChild(imgDiv4);
     }
-  
+
     initAdditionalText1() {
       this.textContent1 = "سباق الحروف";
       this.textPosition1 = { x: 435, y: 250 };
@@ -251,7 +241,7 @@ document.getElementById("secret-submit").addEventListener("click", function () {
       textDiv1.textContent = this.textContent1;
       container.appendChild(textDiv1);
     }
-  
+
     initAdditionalText2() {
       this.textContent2 = "النص الثاني";
       this.textPosition2 = { x: 300, y: 600 };
@@ -272,7 +262,7 @@ document.getElementById("secret-submit").addEventListener("click", function () {
       textDiv2.textContent = this.textContent2;
       container.appendChild(textDiv2);
     }
-  
+
     initAdditionalText3() {
       this.textContent3 = "النص الثالث";
       this.textPosition3 = { x: 600, y: 600 };
@@ -294,13 +284,11 @@ document.getElementById("secret-submit").addEventListener("click", function () {
       container.appendChild(textDiv3);
     }
   }
-  
-  // بدء تشغيل اللعبة عند تحميل الصفحة
+
+  // تشغيل اللعبة بعد تحميل الصفحة
   window.onload = () => {
     const game = new HexGame();
-    // مثال: تحريك الصف الأول 100 بكسل لليمين
     game.moveEntireRowX(0, 100);
-    // مثال: تحريك الشكل كاملًا 50 بكسل لأسفل
     game.moveEntireGrid(0, 50);
   };
-  
+});
