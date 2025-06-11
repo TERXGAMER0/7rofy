@@ -2,7 +2,9 @@
 document.getElementById("secret-submit").addEventListener("click", function () {
   var code = document.getElementById("secret-code").value.trim();
 
-  fetch('/api/verify', {
+  // هنا قمنا بتعديل المسار ليكون:
+  // /.netlify/functions/verify
+  fetch('/.netlify/functions/verify', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ code: code })
